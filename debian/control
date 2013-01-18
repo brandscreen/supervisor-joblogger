@@ -1,0 +1,14 @@
+Source: supervisor-joblogger
+Section: python
+Priority: extra
+Maintainer: Seth Yates <syates@brandscreen.com>
+Build-Depends: debhelper (>= 8.0.0), python (>= 2.6.5)
+Standards-Version: 3.9.2
+Homepage: https://github.com/brandscreen/supervisor-joblogger
+Vcs-Git: https://github.com/brandscreen/supervisor-joblogger.git
+X-Python-Version: >= 2.6.5
+
+Package: supervisor-joblogger
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}, python-sqlalchemy, supervisor
+Description: Provides a plugin to monitor and log jobs via supervisor
