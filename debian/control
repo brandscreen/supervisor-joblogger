@@ -10,5 +10,5 @@ X-Python-Version: >= 2.6.5
 
 Package: supervisor-joblogger
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, python-sqlalchemy, supervisor
+Depends: ${misc:Depends}, ${python:Depends}, python (>= 2.6.5), python-sqlalchemy, supervisor
 Description: Provides a plugin to monitor and log jobs via supervisor
