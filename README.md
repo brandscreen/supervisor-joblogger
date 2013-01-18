@@ -8,7 +8,7 @@ Configuring the eventlistener
 Configure the plugin as an event listener in the /etc/supervisor/supervisord.conf:
 
     [eventlistener:joblogger]
-    command=/usr/bin/joblogger.py
+    command=/usr/lib/supervisor/plugins/joblogger.py
     events=PROCESS_STATE
     autostart=true
     dbpath=sqlite:////var/lib/joblogger.db
