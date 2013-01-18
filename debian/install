@@ -1,1 +1,2 @@
 joblogger.py usr/lib/supervisor/plugins
+joblogger.conf etc/supervisor/conf.d

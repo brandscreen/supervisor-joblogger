@@ -9,4 +9,5 @@ setup(name='supervisor-joblogger',
       author='Seth Yates',
       author_email='syates@brandscreen.com',
       url='https://github.com/brandscreen/supervisor-joblogger',
-      scripts=['joblogger.py'])
+      scripts=['joblogger.py'],
+      data_files=[('/etc/supervisor/conf.d', ['joblogger.conf'])])
