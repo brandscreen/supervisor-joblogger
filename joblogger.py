@@ -51,7 +51,6 @@ from sqlalchemy.orm import sessionmaker
 
 
 CONFIG_FILE = '/etc/supervisor/supervisord.conf'
-DEFAULT_DB = 'sqlite:////var/lib/joblogger.db'
 
 
 Base = declarative_base()
@@ -142,6 +141,27 @@ def parse_program_runtimes(filename, programs):
                 logging.info("{0} maxruntime {1}".format(section_parts[1], programs[section_parts[1]]))
 
 
+def get_dbpath(filename):
+    """
+    Parse the dbpath from the config files
+    """
+    config = ConfigParser.SafeConfigParser()
+    config.read(filename)
+
+    for section in config.sections():
+        if section == 'include':
+            files = config.get('include', 'files')
+            if files:
+                for file_pattern in files.split():
+                    for filenm in glob.iglob(file_pattern):
+                        dbpath = get_dbpath(filenm)
+                        if dbpath:
+                            return dbpath
+        elif section == 'eventlistener:joblogger':
+            return config.get('eventlistener:joblogger', 'dbpath')
+
+    return None
+
 def convert_to_timedelta(time_str):
     num = int(time_str[:-1])
     if time_str.endswith('s'):
@@ -170,10 +190,7 @@ def main():
 
     # Get the main config
     logging.info("Reading configuration")
-    config = ConfigParser.SafeConfigParser({'dbpath': DEFAULT_DB})
-
-    config.read(CONFIG_FILE)
-    dbpath = config.get('eventlistener:joblogger', 'dbpath')
+    dbpath = get_dbpath(CONFIG_FILE)
 
     # Parse the supervisord config file for maxruntimes
     programs = {}
@@ -192,9 +209,7 @@ def main():
 
 
 def check_main(groupname=None, processname=None, maxtime=None):
-    config = ConfigParser.SafeConfigParser({'dbpath': DEFAULT_DB})
-    config.read(CONFIG_FILE)
-    dbpath = config.get('eventlistener:joblogger', 'dbpath')
+    dbpath = get_dbpath(CONFIG_FILE)
 
     engine = create_engine(dbpath, echo=False)
     Base.metadata.create_all(engine)
