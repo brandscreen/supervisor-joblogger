@@ -234,19 +234,19 @@ def check_main(groupname=None, processname=None, maxtime=None):
 
         for event in query.filter_by(groupname=groupname, processname=processname):
             if event.ts < earliest:
-                print "JOB CRITICAL: {0}/{1} last executed at {2}".format(event.groupname, event.processname, datetime.datetime.fromtimestamp(event.ts))
+                print "JOB CRITICAL: {0}:{1} last executed at {2}".format(event.groupname, event.processname, datetime.datetime.fromtimestamp(event.ts))
                 exit(2)
             elif event.eventname == 'FAILED':
-                print "JOB CRITICAL: {0}/{1} (pid {2}) failed at {3}".format(event.groupname, event.processname, event.pid, datetime.datetime.fromtimestamp(event.ts))
+                print "JOB CRITICAL: {0}:{1} (pid {2}) failed at {3}".format(event.groupname, event.processname, event.pid, datetime.datetime.fromtimestamp(event.ts))
                 exit(2)
             elif event.eventname == 'FINISHED':
-                print "JOB OK: {0}/{1} (pid {2}) succeeded at {3}".format(event.groupname, event.processname, event.pid, datetime.datetime.fromtimestamp(event.ts))
+                print "JOB OK: {0}:{1} (pid {2}) succeeded at {3}".format(event.groupname, event.processname, event.pid, datetime.datetime.fromtimestamp(event.ts))
                 exit(0)
             elif event.eventname == 'STARTED':
-                print "JOB OK: {0}/{1} (pid {2}) started at {3}".format(event.groupname, event.processname, event.pid, datetime.datetime.fromtimestamp(event.ts))
+                print "JOB OK: {0}:{1} (pid {2}) started at {3}".format(event.groupname, event.processname, event.pid, datetime.datetime.fromtimestamp(event.ts))
                 exit(0)
 
-        print "JOB CRITICAL: {0}/{1} not executed".format(groupname, processname)
+        print "JOB CRITICAL: {0}:{1} not executed".format(groupname, processname)
         exit(2)
     else:
         events = defaultdict(dict)
